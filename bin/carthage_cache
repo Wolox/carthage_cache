@@ -19,7 +19,7 @@ global_option('--verbose') { verbose = true }
 
 command :exist do |c|
   c.syntax = "#{PROGRAM_NAME} exist [PROJECT_PATH]"
-  c.description = 'Checks if a cache archive exists for the current Cartfile.resolved'
+  c.description = 'Checks if a cache archive exists for the current Cartfile.resolved.'
   c.option '-s', '--script', 'Makes prgram write "true" or "false" to STDOUT instead of more verbose message.'
   c.action do |args, options|
     app = CarthageCache::Application.new(args.first || ".", verbose, config)
@@ -42,7 +42,7 @@ end
 
 command :install do |c|
   c.syntax = "#{PROGRAM_NAME} install [PROJECT_PATH]"
-  c.description = 'Installs the cache archive for the current Cartfile.resolved'
+  c.description = 'Installs the cache archive for the current Cartfile.resolved.'
   c.action do |args, options|
     app = CarthageCache::Application.new(args.first || ".", verbose, config)
     app.install_archive
@@ -51,7 +51,7 @@ end
 
 command :publish do |c|
   c.syntax = "#{PROGRAM_NAME} publish [PROJECT_PATH]"
-  c.description = 'Generates and uploads the cache archive for the current Cartfile.resolved'
+  c.description = 'Generates and uploads the cache archive for the current Cartfile.resolved.'
   c.option '-f', '--force', 'Forces to create a new archive even if an archive already exist.'
   c.action do |args, options|
     options.default force: false
