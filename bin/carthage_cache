@@ -32,8 +32,10 @@ command :exist do |c|
   c.action do |args, options|
     app = CarthageCache::Application.new(args.first || ".", verbose, aws_s3_config)
     if app.archive_exist?
+      ENV['CARTHAGE_CACHE_EXIST'] = 1
       puts "There is a cached archive for the current Cartfile.resolved file."
     else
+      ENV['CARTHAGE_CACHE_EXIST'] = 0
       puts "No cached archive available for the current Cartfile.resolved file."
       puts "You should probably run 'carthage bootstrap'."
     end
