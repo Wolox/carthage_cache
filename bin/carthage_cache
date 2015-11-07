@@ -10,34 +10,32 @@ program :name, PROGRAM_NAME
 program :version, CarthageCache::VERSION
 program :description, CarthageCache::DESCRIPTION
 
+config = {}
 verbose = false
-aws_s3_config = {
-  bucket_name: "carthage-cache",
-  aws_s3_client_options: {
-    region: ENV['AWS_REGION'],
-    access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-    secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
-  }
-}
 global_option('-b', '--bucket-name BUCKET_NAME', 'Set Amazon S3 bucket to be used to store cache archives') do |bucket_name|
-  aws_s3_config[:bucket_name] = aws_access_key_id
+  config[:bucket_name] = bucket_name
 end
 global_option('--verbose') { verbose = true }
-
-# TODO load ./.carthage_cache.yml for configuration
 
 command :exist do |c|
   c.syntax = "#{PROGRAM_NAME} exist [PROJECT_PATH]"
   c.description = 'Checks if a cache archive exists for the current Cartfile.resolved'
+  c.option '-s', '--script', 'Makes prgram write "true" or "false" to STDOUT instead of more verbose message.'
   c.action do |args, options|
-    app = CarthageCache::Application.new(args.first || ".", verbose, aws_s3_config)
+    app = CarthageCache::Application.new(args.first || ".", verbose, config)
     if app.archive_exist?
-      ENV['CARTHAGE_CACHE_EXIST'] = 1
-      puts "There is a cached archive for the current Cartfile.resolved file."
+      if options.script
+        puts "true"
+      else
+        puts "There is a cached archive for the current Cartfile.resolved file."
+      end
     else
-      ENV['CARTHAGE_CACHE_EXIST'] = 0
-      puts "No cached archive available for the current Cartfile.resolved file."
-      puts "You should probably run 'carthage bootstrap'."
+      if options.script
+        puts "false"
+      else
+        puts "No cached archive available for the current Cartfile.resolved file."
+        puts "You should probably run 'carthage bootstrap'."
+      end
     end
   end
 end
@@ -46,7 +44,7 @@ command :install do |c|
   c.syntax = "#{PROGRAM_NAME} install [PROJECT_PATH]"
   c.description = 'Installs the cache archive for the current Cartfile.resolved'
   c.action do |args, options|
-    app = CarthageCache::Application.new(args.first || ".", verbose, aws_s3_config)
+    app = CarthageCache::Application.new(args.first || ".", verbose, config)
     app.install_archive
   end
 end
@@ -54,10 +52,26 @@ end
 command :publish do |c|
   c.syntax = "#{PROGRAM_NAME} publish [PROJECT_PATH]"
   c.description = 'Generates and uploads the cache archive for the current Cartfile.resolved'
-  c.option '-f-', '--force', 'Forces to create a new archive even if an archive already exist.'
+  c.option '-f', '--force', 'Forces to create a new archive even if an archive already exist.'
   c.action do |args, options|
     options.default force: false
-    app = CarthageCache::Application.new(args.first || ".", verbose, aws_s3_config)
+    app = CarthageCache::Application.new(args.first || ".", verbose, config)
     app.create_archive(options.force)
+  end
+end
+
+command :config do |c|
+  c.syntax = "#{PROGRAM_NAME} config [PROJECT_PATH]"
+  c.description = "Generates a '#{CarthageCache::Configurator::CONFIG_FILE_NAME}' config file."
+  c.action do |args, options|
+    configurator = CarthageCache::Configurator.new(args.first || ".")
+    config = {}
+    config[:bucket_name] = ask "What is the Amazon S3 bucket name? [#{CarthageCache::Repository::DEFAULT_BUCKET_NAME}]"
+    config[:aws_s3_client_options] = {}
+    config[:aws_s3_client_options][:region] = ask "What is the Amazon S3 region?"
+    config[:aws_s3_client_options][:access_key_id] = password "What is the AWS access key?"
+    config[:aws_s3_client_options][:secret_access_key] = password " What is the AWS secret access key?"
+    config.delete_if { |k,v| k == :bucket_name && v == "" }
+    configurator.save_config(config)
   end
 end

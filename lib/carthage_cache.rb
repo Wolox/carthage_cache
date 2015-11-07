@@ -7,6 +7,7 @@ require "carthage_cache/carthage_resolved_file"
 require "carthage_cache/project"
 require "carthage_cache/repository"
 require "carthage_cache/terminal"
+require "carthage_cache/configurator"
 
 module CarthageCache
 
@@ -18,11 +19,13 @@ module CarthageCache
     attr_reader :archiver
     attr_reader :repository
     attr_reader :project
+    attr_reader :configurator
 
-    def initialize(project_path, verbose, aws_s3_config)
+    def initialize(project_path, verbose, config)
       @terminal = Terminal.new(verbose)
       @archiver = Archiver.new
-      @repository = Repository.new(aws_s3_config[:bucket_name], aws_s3_config[:aws_s3_client_options])
+      @configurator = Configurator.new(project_path)
+      @repository = Repository.new(configurator.config[:bucket_name], configurator.config[:aws_s3_client_options])
       @project = Project.new(project_path, CACHE_DIR_NAME, terminal)
     end
 

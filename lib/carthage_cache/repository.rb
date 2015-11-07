@@ -9,9 +9,9 @@ module CarthageCache
     attr_reader :client
     attr_reader :bucket_name
 
-    def initialize(bucket_name = DEFAULT_BUCKET_NAME, client_options = {})
+    def initialize(bucket_name, client_options = {})
       @client = ::Aws::S3::Client.new(client_options)
-      @bucket_name = bucket_name
+      @bucket_name = bucket_name || DEFAULT_BUCKET_NAME
     end
 
     def archive_exist?(archive_filename)
