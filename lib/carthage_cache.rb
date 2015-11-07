@@ -31,7 +31,12 @@ module CarthageCache
     end
 
     def install_archive
-      archive_installer.install
+      if archive_exist
+        archive_installer.install
+      else
+        terminal.puts "There is no cached archive for the current Cartfile.resolved file."
+        exit 1
+      end
     end
 
     def create_archive(force = false)
