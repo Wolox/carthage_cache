@@ -1,5 +1,8 @@
 # CarthageCache
 
+[![Code Climate](https://codeclimate.com/github/guidomb/carthage_cache/badges/gpa.svg)](https://codeclimate.com/github/guidomb/carthage_cache)
+[![Test Coverage](https://codeclimate.com/github/guidomb/carthage_cache/badges/coverage.svg)](https://codeclimate.com/github/guidomb/carthage_cache/coverage)
+
 CarthageCache allows Carthage users to have a shared cache of their `Carthage/Build` folder backed by Amazon S3.
 
 Most libraries don't provide pre-compiled binaries, `.framework` files, in their releases. Even if they do, due to Swift lack of ABI, you might be forced to use `--no-use-binaries` flag and compile all your dependencies. Which, depending on the amount of dependencies and their size it could take significant time.
