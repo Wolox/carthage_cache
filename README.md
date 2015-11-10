@@ -48,7 +48,7 @@ You can also set your credentials using the following environmental variables
 
 ### AWS S3 bucket
 
-CarthageCache will assume there is a bucket named `carhtage-cache`. You can change the bucket to be used by using the option `-b` or `--bucket-name`.
+CarthageCache will assume there is a bucket named `carthage-cache`. You can change the bucket to be used by using the option `-b` or `--bucket-name`.
 
 ## Usage
 
