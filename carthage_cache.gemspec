@@ -11,7 +11,11 @@ Gem::Specification.new do |spec|
   spec.email         = ["guidomb@gmail.com"]
 
   spec.summary       = CarthageCache::DESCRIPTION
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.description   = %q{
+    CarthageCache generate a hash key based on the content of your Cartfile.resolved and checks
+    if there is a cache archive (a zip file of your Carthage/Build directory) associated to that hash.
+    If there is one it will download it and install it in your project avoiding the need to run carthage bootstrap.
+  }
   spec.homepage      = "https://github.com/guidomb/carthage_cache"
   spec.license       = "MIT"
 
