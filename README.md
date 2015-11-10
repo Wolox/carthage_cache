@@ -88,7 +88,7 @@ Will try to read the `Cartfile.resolved` file from the current working directory
 ```
 carthage_cache install PATH/TO/MY/PROJECT
 ```
-Will try to read the `PATH/TO/MY/PROJECT/Cartfile.resolved` file from the current working directory and will install the cache archive in `PATH/TO/MY/PROJECT/Carthage/Build`.
+Will try to read the `PATH/TO/MY/PROJECT/Cartfile.resolved` and will install the cache archive in `PATH/TO/MY/PROJECT/Carthage/Build`.
 
 
 
