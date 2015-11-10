@@ -37,7 +37,7 @@ First of all you need to configure your AWS credentials. You can do this by a `.
 To generate a `.carthage_cache.yml` you just need to run
 
 ```
-carthage configure
+carthage_cache config
 ```
 
 You can also set your credentials using the following environmental variables
