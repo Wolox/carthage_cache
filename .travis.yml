@@ -1,4 +1,17 @@
+os:
+  - osx
 language: ruby
+cache: bundler
 rvm:
+  - head
   - 2.2.2
+  # OS X 10.9.5-10.10.0 (2.0.0-p481)
+  - system
+  # OS X 10.9.3-10.9.4
+  - 2.0.0-p451
+
+branches:
+  only:
+    - master
+
 before_install: gem install bundler -v 1.10.6
