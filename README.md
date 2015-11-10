@@ -10,7 +10,7 @@ Most libraries don't provide pre-compiled binaries, `.framework` files, in their
 
 When you add slow building environments like Travis CI to the mix, a project bootstrap could take around 25 minutes just to build all your dependencies. Which is a lot for every push or pull request. You want your build and test to run really fast.
 
-CarthageCache generate a hash key based on the content of your `Cartfile.resolved` and checks if there is a cache archive (a zip file of your `Carthage/Build` directory) associated to that hash. If there is one it will download it and install it in your project avoiding the need to run `carthage bootstrap`.
+CarthageCache generates a hash key based on the content of your `Cartfile.resolved` and checks if there is a cache archive (a zip file of your `Carthage/Build` directory) associated to that hash. If there is one it will download it and install it in your project avoiding the need to run `carthage bootstrap`.
 
 ## Installation
 
@@ -27,6 +27,28 @@ And then execute:
 Or install it yourself as:
 
     $ gem install carthage_cache
+
+## Setup
+
+### AWS credentials
+
+First of all you need to configure your AWS credentials. You can do this by a `.carthage_cache.yml` file. CarthageCache will try to find this file in the current working directory. It is recommended to generate this file in each project you want to use CarthageCache.
+
+To generate a `.carthage_cache.yml` you just need to run
+
+```
+carthage configure
+```
+
+You can also set your credentials using the following environmental variables
+
+ * `AWS_REGION`
+ * `AWS_ACCESS_KEY_ID`
+ * `AWS_SECRET_ACCESS_KEY`
+
+### AWS S3 bucket
+
+CarthageCache will assume there is a bucket named `carhtage-cache`. You can change the bucket to be used by using the option `-b` or `--bucket-name`.
 
 ## Usage
 
@@ -47,6 +69,28 @@ If you want to check whether a cache exists for the current `Carfile.resolved`
 ```
 carthage_cache exist
 ```
+
+For more information run the help command
+
+```
+carthage_cache help
+```
+
+### Project's root directory
+
+The `carthage_cache` command assumes that the project's root directory is the current working directory and that the `Cartfile.resolved` file is located in the project's root directory. All `carthage_cache` accept an optional argument to set the project's root directory. For example
+
+```
+carthage_cache install
+```
+Will try to read the `Cartfile.resolved` file from the current working directory and will install the cache archive in `./Carthage/Build`.
+
+```
+carthage_cache install PATH/TO/MY/PROJECT
+```
+Will try to read the `PATH/TO/MY/PROJECT/Cartfile.resolved` file from the current working directory and will install the cache archive in `PATH/TO/MY/PROJECT/Carthage/Build`.
+
+
 
 ## Development
 
