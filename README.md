@@ -2,6 +2,7 @@
 
 [![Code Climate](https://codeclimate.com/github/guidomb/carthage_cache/badges/gpa.svg)](https://codeclimate.com/github/guidomb/carthage_cache)
 [![Test Coverage](https://codeclimate.com/github/guidomb/carthage_cache/badges/coverage.svg)](https://codeclimate.com/github/guidomb/carthage_cache/coverage)
+[![Gem Version](https://badge.fury.io/rb/carthage_cache.svg)](https://badge.fury.io/rb/carthage_cache)
 
 CarthageCache allows Carthage users to have a shared cache of their `Carthage/Build` folder backed by Amazon S3.
 
