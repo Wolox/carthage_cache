@@ -42,8 +42,9 @@ module CarthageCache
           config = Configuration.parse(File.read(config_file_path))
           config = config.merge(base_config)
         else
-          base_config
+          config = base_config
         end
+        config
       end
 
       def validate!(config)
