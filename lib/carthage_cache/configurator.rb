@@ -36,8 +36,9 @@ module CarthageCache
           raise "Invalid config file" unless valid?(config)
           config.merge(base_config)
         else
-          base_config
+          config = base_config
         end
+        config
       end
 
       def valid?(config)
