@@ -55,7 +55,6 @@ module CarthageCache
 
       def default_configuration
         config = {
-          bucket_name: nil,
           aws_s3_client_options: {}
         }
         config[:aws_s3_client_options][:region] = ENV['AWS_REGION'] if ENV['AWS_REGION']
