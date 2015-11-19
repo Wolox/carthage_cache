@@ -4,14 +4,12 @@ module CarthageCache
 
   class Repository
 
-    DEFAULT_BUCKET_NAME = "carthage-cache"
-
     attr_reader :client
     attr_reader :bucket_name
 
     def initialize(bucket_name, client_options = {})
       @client = ::Aws::S3::Client.new(client_options)
-      @bucket_name = bucket_name || DEFAULT_BUCKET_NAME
+      @bucket_name = bucket_name
     end
 
     def archive_exist?(archive_filename)

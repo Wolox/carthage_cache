@@ -11,7 +11,7 @@ module CarthageCache
 
     def initialize(project_path, base_config = {})
       @config_file_path = File.join(project_path, CONFIG_FILE_NAME)
-      @base_config = default_configuration.merge(base_config)
+      @base_config = merge_config(base_config)
     end
 
     def config
@@ -19,9 +19,8 @@ module CarthageCache
     end
 
     def save_config(config)
-      if valid?(config)
-        File.open(config_file_path, 'w') { |f| f.write config.to_yaml }
-      end
+      raise "Invalid configuration" unless config.valid?
+      File.open(config_file_path, 'w') { |f| f.write config.to_yaml }
     end
 
     private
@@ -32,35 +31,30 @@ module CarthageCache
 
       def load_config
         if config_file_exist?
-          config = YAML.load(File.read(config_file_path))
-          raise "Invalid config file" unless valid?(config)
+          config = Configuration.parse(File.read(config_file_path))
           config.merge(base_config)
         else
           base_config
         end
       end
 
-      def valid?(config)
-        config.has_key?(:aws_s3_client_options)             &&
-        config[:aws_s3_client_options][:region]             &&
-        config[:aws_s3_client_options][:access_key_id]      &&
-        config[:aws_s3_client_options][:secret_access_key]
+      def remove_nil_keys(hash)
+        hash.inject({}) do |new_hash, (k,v)|
+          unless v.nil? || (v.respond_to?(:empty?) && v.empty?)
+            if v.class == Hash
+              cleaned_hashed = remove_nil_keys(v)
+              new_hash[k] = cleaned_hashed unless cleaned_hashed.empty?
+            else
+              new_hash[k] = v
+            end
+          end
+          new_hash
+        end
       end
 
-      def deep_symbolize_keys(object)
-        return object.inject({}) { |memo,(k,v)| memo[k.to_sym] = deep_symbolize_keys(v); memo } if object.is_a? Hash
-        return object.inject([]) { |memo,v    | memo          << deep_symbolize_keys(v); memo } if object.is_a? Array
-        return object
-      end
-
-      def default_configuration
-        config = {
-          aws_s3_client_options: {}
-        }
-        config[:aws_s3_client_options][:region] = ENV['AWS_REGION'] if ENV['AWS_REGION']
-        config[:aws_s3_client_options][:access_key_id] = ENV['AWS_ACCESS_KEY_ID'] if ENV['AWS_ACCESS_KEY_ID']
-        config[:aws_s3_client_options][:secret_access_key] = ENV['AWS_SECRET_ACCESS_KEY'] if ENV['AWS_SECRET_ACCESS_KEY']
-        config.delete_if { |k, v| k == :aws_s3_client_options && v.empty? }
+      def merge_config(config)
+        new_config = Configuration.default.hash_object.merge(config)
+        Configuration.new(remove_nil_keys(new_config))
       end
 
   end

@@ -65,13 +65,8 @@ command :config do |c|
   c.description = "Generates a '#{CarthageCache::Configurator::CONFIG_FILE_NAME}' config file."
   c.action do |args, options|
     configurator = CarthageCache::Configurator.new(args.first || ".")
-    config = {}
-    config[:bucket_name] = ask "What is the Amazon S3 bucket name? [#{CarthageCache::Repository::DEFAULT_BUCKET_NAME}]"
-    config[:aws_s3_client_options] = {}
-    config[:aws_s3_client_options][:region] = ask "What is the Amazon S3 region?"
-    config[:aws_s3_client_options][:access_key_id] = password "What is the AWS access key?"
-    config[:aws_s3_client_options][:secret_access_key] = password " What is the AWS secret access key?"
-    config.delete_if { |k,v| k == :bucket_name && v == "" }
+    wizard = CarthageCache::ConfiguratorWizard.new(method(:ask), method(:password))
+    config = wizard.start
     configurator.save_config(config)
   end
 end
