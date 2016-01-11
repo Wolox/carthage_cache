@@ -8,9 +8,9 @@ module CarthageCache
     end
 
     def unarchive(archive_path, destination_path)
-      `unzip #{archive_path} -d #{destination_path} > /dev/null`
+      `unzip -o #{archive_path} -d #{destination_path} > /dev/null`
     end
 
   end
-  
+
 end
