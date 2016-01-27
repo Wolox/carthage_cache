@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require "bundler/setup"
+#require "bundler/setup"
 require "commander/import"
 require "carthage_cache"
 
