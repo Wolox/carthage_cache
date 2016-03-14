@@ -14,4 +14,4 @@ branches:
   only:
     - master
 
-before_install: gem install bundler
+before_install: sudo gem install bundler
