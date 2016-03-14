@@ -14,3 +14,7 @@ branches:
     - master
 
 before_install: sudo gem install bundler
+
+addons:
+    code_climate:
+        repo_token: 6220ef8896c380cb590d4640621d1fc4c0d6d36ccc24d3d818cfba76bbd50014
