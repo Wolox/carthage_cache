@@ -45,7 +45,7 @@ command :install do |c|
   c.description = 'Installs the cache archive for the current Cartfile.resolved.'
   c.action do |args, options|
     app = CarthageCache::Application.new(args.first || ".", verbose, config)
-    app.install_archive
+    exit 1 unless app.install_archive
   end
 end
 

@@ -3,8 +3,8 @@ require "spec_helper"
 describe CarthageCache::ArchiveBuilder do
 
   let(:cache_dir_name) { "spec_carthage_cache" }
-  let(:terminal) { MockTerminal.new }
-  let(:project) { CarthageCache::Project.new(FIXTURE_PATH, cache_dir_name, terminal) }
+  let(:terminal) { MockTerminal.new(false) }
+  let(:project) { CarthageCache::Project.new(FIXTURE_PATH, cache_dir_name, terminal, TMP_PATH) }
   let(:archiver) { CarthageCache::Archiver.new(MockCommandExecutor.new) }
   let(:repository) { double("repository") }
   subject(:archive_builder) { CarthageCache::ArchiveBuilder.new(terminal, repository, archiver, project) }

@@ -32,7 +32,8 @@ module CarthageCache
           region: ENV['AWS_REGION'],
           access_key_id: ENV['AWS_ACCESS_KEY_ID'],
           secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
-        }
+        },
+        tmpdir: Dir.tmpdir
       })
     end
 
@@ -40,6 +41,7 @@ module CarthageCache
     config_key :aws_region
     config_key :aws_access_key_id
     config_key :aws_secret_access_key
+    config_key :tmpdir
 
     attr_reader :hash_object
 

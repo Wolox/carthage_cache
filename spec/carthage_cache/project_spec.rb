@@ -3,8 +3,8 @@ require "spec_helper"
 describe CarthageCache::Project do
 
   let(:cache_dir_name) { "spec_carthage_cache" }
-  let(:terminal) { MockTerminal.new }
-  subject(:project) { CarthageCache::Project.new(FIXTURE_PATH, cache_dir_name, terminal) }
+  let(:terminal) { MockTerminal.new(false) }
+  subject(:project) { CarthageCache::Project.new(FIXTURE_PATH, cache_dir_name, terminal, TMP_PATH) }
 
   describe "#archive_key" do
 
@@ -33,7 +33,7 @@ describe CarthageCache::Project do
   describe "#tmpdir" do
 
     it "returns the project's temporary directory" do
-      expect(project.tmpdir).to eq(File.join(Dir.tmpdir, cache_dir_name))
+      expect(project.tmpdir).to eq(File.join(TMP_PATH, cache_dir_name))
     end
 
   end

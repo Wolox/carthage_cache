@@ -6,11 +6,13 @@ module CarthageCache
     attr_reader :project_path
     attr_reader :cache_dir_name
     attr_reader :terminal
+    attr_reader :tmpdir_base_path
 
-    def initialize(project_path, cache_dir_name, terminal)
+    def initialize(project_path, cache_dir_name, terminal, tmpdir)
       @project_path = project_path
       @cache_dir_name = cache_dir_name
       @terminal = terminal
+      @tmpdir_base_path = tmpdir
       @cartfile = CartfileResolvedFile.new(cartfile_resolved_path)
     end
 
@@ -37,7 +39,7 @@ module CarthageCache
       end
 
       def create_tmpdir
-        dir = File.join(Dir.tmpdir, cache_dir_name)
+        dir = File.join(tmpdir_base_path, cache_dir_name)
         unless File.exist?(dir)
           terminal.vputs "Creating carthage cache directory at '#{dir}'."
           FileUtils.mkdir_p(dir)
