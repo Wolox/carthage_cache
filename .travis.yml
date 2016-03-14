@@ -3,7 +3,6 @@ os:
 language: ruby
 cache: bundler
 rvm:
-  - head
   - 2.2.2
   # OS X 10.9.5-10.10.0 (2.0.0-p481)
   - system
