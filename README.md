@@ -1,5 +1,6 @@
 # CarthageCache
 
+[![Build Status](https://travis-ci.org/guidomb/carthage_cache.svg?branch=master)](https://travis-ci.org/guidomb/carthage_cache)
 [![Code Climate](https://codeclimate.com/github/guidomb/carthage_cache/badges/gpa.svg)](https://codeclimate.com/github/guidomb/carthage_cache)
 [![Test Coverage](https://codeclimate.com/github/guidomb/carthage_cache/badges/coverage.svg)](https://codeclimate.com/github/guidomb/carthage_cache/coverage)
 [![Gem Version](https://badge.fury.io/rb/carthage_cache.svg)](https://badge.fury.io/rb/carthage_cache)
