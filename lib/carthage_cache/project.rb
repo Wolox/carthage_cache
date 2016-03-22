@@ -8,12 +8,12 @@ module CarthageCache
     attr_reader :terminal
     attr_reader :tmpdir_base_path
 
-    def initialize(project_path, cache_dir_name, terminal, tmpdir)
+    def initialize(project_path, cache_dir_name, terminal, tmpdir, executor = ShellCommandExecutor.new)
       @project_path = project_path
       @cache_dir_name = cache_dir_name
       @terminal = terminal
       @tmpdir_base_path = tmpdir
-      @cartfile = CartfileResolvedFile.new(cartfile_resolved_path)
+      @cartfile = CartfileResolvedFile.new(cartfile_resolved_path, executor)
     end
 
     def archive_filename

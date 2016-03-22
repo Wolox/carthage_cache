@@ -10,12 +10,12 @@ module CarthageCache
     attr_reader :project
     attr_reader :config
 
-    def initialize(project_path, verbose, config, repository: Repository, terminal: Terminal)
+    def initialize(project_path, verbose, config, repository: Repository, terminal: Terminal, executor: ShellCommandExecutor)
       @terminal = terminal.new(verbose)
-      @archiver = Archiver.new
+      @archiver = Archiver.new(executor.new)
       @config = Configurator.new(project_path, config).config
       @repository = repository.new(@config.bucket_name, @config.hash_object[:aws_s3_client_options])
-      @project = Project.new(project_path, CACHE_DIR_NAME, terminal, @config.tmpdir)
+      @project = Project.new(project_path, CACHE_DIR_NAME, terminal, @config.tmpdir, executor.new)
     end
 
     def archive_exist?
