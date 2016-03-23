@@ -10,7 +10,7 @@ describe CarthageCache::Archiver do
   describe "#archive" do
 
     it "creates a zip file with the content of the project's 'Carthage/Build' directory" do
-      expected_command = "cd #{build_directory} && zip -r -X #{archive_path}  > /dev/null"
+      expected_command = "cd #{build_directory} && zip -r -X #{archive_path} iOS Mac tvOS watchOS > /dev/null"
       expect(executor).to receive(:execute).with(expected_command)
       archiver.archive(build_directory, archive_path)
     end

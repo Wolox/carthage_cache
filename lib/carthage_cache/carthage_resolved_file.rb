@@ -6,9 +6,9 @@ module CarthageCache
 
     attr_reader :file_path
 
-    def initialize(file_path, executor = ShellCommandExecutor.new)
+    def initialize(file_path, swift_version_resolver = SwiftVersionResolver.new)
       @file_path = file_path
-      @executor = executor
+      @swift_version_resolver = swift_version_resolver
     end
 
     def digest
@@ -20,9 +20,7 @@ module CarthageCache
     end
 
     def swift_version
-      output = @executor.execute('xcrun swift -version').chomp
-      version_string = /(\d+\.)?(\d+\.)?(\d+)/.match(output).to_s
-      Gem::Version.new(version_string)
+      @swift_version ||= @swift_version_resolver.swift_version
     end
 
   end
