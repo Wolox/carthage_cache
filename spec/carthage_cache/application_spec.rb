@@ -4,8 +4,8 @@ require "fileutils"
 describe CarthageCache::Application do
 
   let(:repository) { double("repository") }
-  let(:options) { { repository: double("repository_class", new: repository), terminal: MockTerminal } }
-  let(:archive_filename) { "a7389856777fbb43a5c5eecf4b30a1b0aabc4a3bfba91a3713c5c7f342b11941.zip" }
+  let(:options) { { repository: double("repository_class", new: repository), terminal: MockTerminal, swift_version_resolver: MockSwiftVersionResolver } }
+  let(:archive_filename) { "076c322e6651c2c39a01790b4b525a79ec17f49e1b847275418ec512a4cb0396.zip" }
   let(:tmpdir) { File.join(TMP_PATH, "carthage_cache") }
   let(:archive_path) { File.join(tmpdir, archive_filename) }
   subject(:application) { CarthageCache::Application.new(FIXTURE_PATH, false, { tmpdir: TMP_PATH }, options) }
