@@ -11,7 +11,8 @@ Most libraries don't provide pre-compiled binaries, `.framework` files, in their
 
 When you add slow building environments like Travis CI to the mix, a project bootstrap could take around 25 minutes just to build all your dependencies. Which is a lot for every push or pull request. You want your build and test to run really fast.
 
-CarthageCache generates a hash key based on the content of your `Cartfile.resolved` and checks if there is a cache archive (a zip file of your `Carthage/Build` directory) associated to that hash. If there is one it will download it and install it in your project avoiding the need to run `carthage bootstrap`.
+CarthageCache generates a hash key based on the content of your `Cartfile.resolved` and the current
+installed version of Swift. Then it checks if there is a cache archive (a zip file of your `Carthage/Build` directory) associated to that hash. If there is one it will download it and install it in your project avoiding the need to run `carthage bootstrap`.
 
 ## Installation
 
@@ -53,7 +54,7 @@ CarthageCache will assume there is a bucket named `carthage-cache`. You can chan
 
 ### IAM Policy
 
-Once you create the bucket, you will need to create a user. Go to the IAM section and create a new user. Create a new group, and add the new user to that group. 
+Once you create the bucket, you will need to create a user. Go to the IAM section and create a new user. Create a new group, and add the new user to that group.
 Create a policy with the following permisions:
 ```
 {
