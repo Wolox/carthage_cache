@@ -16,6 +16,10 @@ module CarthageCache
       puts(message) if verbose
     end
 
+    def error(message)
+      STDERR.puts(message)
+    end
+
   end
 
 end

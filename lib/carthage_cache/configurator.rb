@@ -8,14 +8,16 @@ module CarthageCache
 
     attr_reader :config_file_path
     attr_reader :base_config
+    attr_reader :terminal
 
-    def initialize(project_path, base_config = {})
+    def initialize(terminal, project_path, base_config = {})
       @config_file_path = File.join(project_path, CONFIG_FILE_NAME)
       @base_config = merge_config(base_config)
+      @terminal = terminal
     end
 
     def config
-      @config ||= load_config
+      @config ||= load_config!
     end
 
     def save_config(config)
@@ -29,12 +31,27 @@ module CarthageCache
         File.exist?(config_file_path)
       end
 
+      def load_config!
+        config = load_config
+        validate!(config)
+        config
+      end
+
       def load_config
         if config_file_exist?
           config = Configuration.parse(File.read(config_file_path))
-          config.merge(base_config)
+          config = config.merge(base_config)
         else
           base_config
+        end
+      end
+
+      def validate!(config)
+        validator = ConfigurationValidator.new(config)
+        result = validator.validate
+        unless result.valid?
+          terminal.error "error: #{result.error.solution}"
+          exit 1
         end
       end
 

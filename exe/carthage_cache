@@ -64,7 +64,8 @@ command :config do |c|
   c.syntax = "#{PROGRAM_NAME} config [PROJECT_PATH]"
   c.description = "Generates a '#{CarthageCache::Configurator::CONFIG_FILE_NAME}' config file."
   c.action do |args, options|
-    configurator = CarthageCache::Configurator.new(args.first || ".")
+    terminal = CarthageCache::Terminal.new(verbose)
+    configurator = CarthageCache::Configurator.new(terminal, args.first || ".")
     wizard = CarthageCache::ConfiguratorWizard.new(method(:ask), method(:password))
     config = wizard.start
     configurator.save_config(config)

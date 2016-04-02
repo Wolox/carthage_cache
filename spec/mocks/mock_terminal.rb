@@ -9,4 +9,7 @@ class MockTerminal
   def vputs(message)
   end
 
+  def error(message)
+  end
+
 end

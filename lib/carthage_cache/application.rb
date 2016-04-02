@@ -13,7 +13,7 @@ module CarthageCache
     def initialize(project_path, verbose, config, repository: Repository, terminal: Terminal, swift_version_resolver: SwiftVersionResolver)
       @terminal = terminal.new(verbose)
       @archiver = Archiver.new
-      @config = Configurator.new(project_path, config).config
+      @config = Configurator.new(@terminal, project_path, config).config
       @repository = repository.new(@config.bucket_name, @config.hash_object[:aws_s3_client_options])
       @project = Project.new(project_path, CACHE_DIR_NAME, @terminal, @config.tmpdir, swift_version_resolver.new)
     end

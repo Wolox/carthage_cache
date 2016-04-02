@@ -13,17 +13,11 @@ module CarthageCache
     end
 
     def self.valid?(config)
-      config[:bucket_name]                                &&
-      config.has_key?(:aws_s3_client_options)             &&
-      config[:aws_s3_client_options][:region]             &&
-      config[:aws_s3_client_options][:access_key_id]      &&
-      config[:aws_s3_client_options][:secret_access_key]
+      ConfigurationValidator.new(config).valid?
     end
 
     def self.parse(str)
-      config = YAML.load(str)
-      raise "Invalid configuration" unless valid?(config)
-      new(config)
+      new(YAML.load(str))
     end
 
     def self.default
@@ -54,7 +48,7 @@ module CarthageCache
     end
 
     def valid?
-      self.class.valid?(hash_object)
+      self.class.valid?(self)
     end
 
     def merge(c)
