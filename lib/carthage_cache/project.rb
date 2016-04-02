@@ -13,7 +13,7 @@ module CarthageCache
       @cache_dir_name = cache_dir_name
       @terminal = terminal
       @tmpdir_base_path = tmpdir
-      @cartfile = CartfileResolvedFile.new(cartfile_resolved_path, swift_version_resolver)
+      @cartfile = CartfileResolvedFile.new(cartfile_resolved_path, terminal, swift_version_resolver)
     end
 
     def archive_filename

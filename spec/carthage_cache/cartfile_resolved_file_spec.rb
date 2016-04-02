@@ -3,7 +3,9 @@ require "spec_helper"
 describe CarthageCache::CartfileResolvedFile do
 
   let(:cartfile_resolved_path) { File.join(FIXTURE_PATH, "Cartfile.resolved") }
-  subject(:cartfile_resolved) { CarthageCache::CartfileResolvedFile.new(cartfile_resolved_path, MockSwiftVersionResolver.new) }
+  let(:terminal) { MockTerminal.new(false) }
+  let(:swift_version_resolver) { MockSwiftVersionResolver.new }
+  subject(:cartfile_resolved) { CarthageCache::CartfileResolvedFile.new(cartfile_resolved_path, terminal, swift_version_resolver) }
 
   describe "#digest" do
 
