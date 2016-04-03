@@ -14,6 +14,7 @@ require "carthage_cache/configurator_wizard"
 require "carthage_cache/shell_command_executor.rb"
 require "carthage_cache/application.rb"
 require "carthage_cache/swift_version_resolver.rb"
+require "carthage_cache/build_collector.rb"
 
 module CarthageCache
 

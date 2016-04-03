@@ -53,10 +53,12 @@ command :publish do |c|
   c.syntax = "#{PROGRAM_NAME} publish [PROJECT_PATH]"
   c.description = 'Generates and uploads the cache archive for the current Cartfile.resolved.'
   c.option '-f', '--force', 'Forces to create a new archive even if an archive already exist.'
+  c.option '-p', '--prune-build-directory', 'Removes unused frameworks from build directory.'
+  c.option '-w', '--prune-white-list PRUNE_WHITE_LIST', String, 'Path to a YAML file containing the prune white list.'
   c.action do |args, options|
-    options.default force: false
+    options.default force: false, prune: false
     app = CarthageCache::Application.new(args.first || ".", verbose, config)
-    app.create_archive(options.force)
+    app.create_archive(options.force, options.prune, options.prune_white_list)
   end
 end
 
@@ -69,5 +71,16 @@ command :config do |c|
     wizard = CarthageCache::ConfiguratorWizard.new(method(:ask), method(:password))
     config = wizard.start
     configurator.save_config(config)
+  end
+end
+
+command :prune do |c|
+  c.syntax = "#{PROGRAM_NAME} prune [PROJECT_PATH]"
+  c.description = 'Removes unused frameworks from build directory.'
+  c.option '-w', '--prune-white-list PRUNE_WHITE_LIST', String, 'Path to a YAML file containing the prune white list.'
+  c.action do |args, options|
+    options.default force: false, prune: false
+    app = CarthageCache::Application.new(args.first || ".", verbose, config)
+    app.prune_build_directory(options.prune_white_list)
   end
 end

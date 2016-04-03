@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe CarthageCache::Project do
 
-  let(:cache_dir_name) { "spec_carthage_cache" }
+  let(:cache_dir_name) { "carthage_cache" }
   let(:terminal) { MockTerminal.new(false) }
   subject(:project) { CarthageCache::Project.new(FIXTURE_PATH, cache_dir_name, terminal, TMP_PATH, MockSwiftVersionResolver.new) }
 
@@ -34,6 +34,14 @@ describe CarthageCache::Project do
 
     it "returns the project's temporary directory" do
       expect(project.tmpdir).to eq(File.join(TMP_PATH, cache_dir_name))
+    end
+
+  end
+
+  describe "#all_frameworks" do
+
+    it "returns all the project's dependencies" do
+      expect(project.all_frameworks).to eq(["Neon", "Result"])
     end
 
   end

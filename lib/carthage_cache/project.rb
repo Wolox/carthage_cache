@@ -32,6 +32,10 @@ module CarthageCache
       @carthage_build_directory ||= File.join(project_path, "Carthage", "Build")
     end
 
+    def all_frameworks
+      cartfile.frameworks
+    end
+
     private
 
       def cartfile_resolved_path

@@ -23,4 +23,12 @@ describe CarthageCache::CartfileResolvedFile do
 
   end
 
+  describe "#frameworks" do
+
+    it "returns a list of framewokrs name" do
+      expect(cartfile_resolved.frameworks).to eq(["Neon", "Result"])
+    end
+
+  end
+
 end

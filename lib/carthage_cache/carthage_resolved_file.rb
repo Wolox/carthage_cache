@@ -26,6 +26,10 @@ module CarthageCache
       @swift_version ||= swift_version_resolver.swift_version
     end
 
+    def frameworks
+      @frameworks ||= content.each_line.map { |line| extract_framework_name(line) }
+    end
+
     private
 
       def generate_digest
@@ -34,6 +38,10 @@ module CarthageCache
         generated_digest = Digest::SHA256.hexdigest(content + "#{swift_version}")
         terminal.vputs "Generated digest: #{generated_digest}"
         generated_digest
+      end
+
+      def extract_framework_name(cartfile_line)
+        cartfile_line.split(" ")[1].split("/").last.gsub('"', "")
       end
 
   end

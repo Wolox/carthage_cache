@@ -7,6 +7,15 @@ describe CarthageCache::Archiver do
   let(:archive_path) { File.join(TMP_PATH, "archive.zip") }
   subject(:archiver) { CarthageCache::Archiver.new(executor) }
 
+  before(:each) do
+    FileUtils.mkdir_p(build_directory)
+    `unzip -o #{archive_path} -d #{build_directory} > /dev/null`
+  end
+
+  after(:each) do
+    FileUtils.rm_r(build_directory)
+  end
+
   describe "#archive" do
 
     it "creates a zip file with the content of the project's 'Carthage/Build' directory" do

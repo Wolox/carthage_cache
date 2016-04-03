@@ -35,7 +35,7 @@ describe CarthageCache::Application do
   describe "#install_archive" do
 
     before(:each) do
-      FileUtils.cp(File.join(tmpdir, "archive.zip"), archive_path)
+      FileUtils.cp(File.join(TMP_PATH, "archive.zip"), archive_path)
     end
 
     after(:each) do
