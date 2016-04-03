@@ -107,6 +107,38 @@ If you want to check whether a cache exists for the current `Carfile.resolved`
 carthage_cache exist
 ```
 
+If you want to publish an archive that already exists
+
+```
+carthage_cache publish --force
+```
+
+If you want to delete unused libraries from build directory for all targets
+
+```
+carthage_cache prune
+```
+
+You can also prune the build directory before publishing a new archive
+
+```
+carthage_cache publish --prune-build-directory
+```
+
+Both `prune` and `publish` accept `--prune-white-list` to configure frameworks that don't appear in the `Cartfile.resolved` and should not be pruned by associating them with a framework that does appear in `Cartfile.resolved`. Like `CocoaLumberjackSwift`:
+
+```
+carthage_cache publish -p -w .white-list.yml
+```
+ * *`-p` is the short version of `--prune-build-directory`*
+ * *`-w` is the short version of `--prune-white-list`*
+
+where `.white-list.yml` is
+
+```yaml
+"CocoaLumberjackSwift": "CocoaLumberjack"
+```
+
 For more information run the help command
 
 ```
