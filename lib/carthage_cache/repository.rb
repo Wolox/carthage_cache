@@ -2,7 +2,7 @@ require "aws-sdk"
 
 module CarthageCache
 
-  class Repository
+  class AWSRepository
 
     attr_reader :client
     attr_reader :bucket_name
@@ -27,6 +27,29 @@ module CarthageCache
       File.open(archive_path, 'rb') do |file|
         client.put_object(bucket: bucket_name, key: archive_filename, body: file)
       end
+    end
+
+  end
+
+  class HTTPRepository
+
+    attr_reader :base_url
+
+    def initialize(bucket_name, client_options = {})
+      region = client_options[:region]
+      bucket_name = bucket_name
+      @base_url = "https://s3-#{region}.amazonaws.com/#{bucket_name}"
+    end
+
+    def archive_exist?(archive_filename)
+      system "wget", "--method=HEAD", "#{base_url}/#{archive_filename}", "-q"
+    end
+
+    def download(archive_filename, destination_path)
+      system "wget", "--output-document=#{destination_path}/#{archive_filename}", "#{base_url}/#{archive_filename}", "-q"
+    end
+
+    def upload(archive_filename, archive_path)
     end
 
   end

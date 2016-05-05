@@ -12,7 +12,7 @@ module CarthageCache
     attr_reader :project
     attr_reader :config
 
-    def initialize(project_path, verbose, config, repository: Repository, terminal: Terminal, swift_version_resolver: SwiftVersionResolver)
+    def initialize(project_path, verbose, config, repository: AWSRepository, terminal: Terminal, swift_version_resolver: SwiftVersionResolver)
       @terminal = terminal.new(verbose)
       @archiver = Archiver.new
       @config = Configurator.new(@terminal, project_path, config).config
