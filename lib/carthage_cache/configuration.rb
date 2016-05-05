@@ -16,6 +16,10 @@ module CarthageCache
       ConfigurationValidator.new(config).valid?
     end
 
+    def self.read_only?(config)
+      ConfigurationValidator.new(config).read_only?
+    end
+
     def self.parse(str)
       new(YAML.load(str))
     end
@@ -51,6 +55,10 @@ module CarthageCache
 
     def valid?
       self.class.valid?(self)
+    end
+
+    def read_only?
+      self.class.read_only?(self)
     end
 
     def merge(c)
