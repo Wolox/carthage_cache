@@ -72,6 +72,9 @@ module CarthageCache
     def validate
       return missing_bucket_name unless has_bucket_name?
       return missing_aws_region unless has_aws_region?
+
+      return ValidationResult.valid if has_aws_profile?
+      
       return missing_aws_access_key_id unless has_aws_access_key_id?
       return missing_aws_secret_access_key unless has_aws_secret_access_key?
       ValidationResult.valid
@@ -93,6 +96,10 @@ module CarthageCache
 
       def has_aws_secret_access_key?
         config.aws_secret_access_key
+      end
+
+      def has_aws_profile?
+        config.aws_profile
       end
 
       def missing_bucket_name

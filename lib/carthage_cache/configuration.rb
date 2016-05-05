@@ -35,6 +35,7 @@ module CarthageCache
     config_key :aws_region
     config_key :aws_access_key_id
     config_key :aws_secret_access_key
+    config_key :aws_profile
     config_key :tmpdir
 
     attr_reader :hash_object
