@@ -69,14 +69,17 @@ module CarthageCache
       validate.valid?
     end
 
+    def read_only?
+      (config.aws_access_key_id.nil? or config.aws_secret_access_key.nil?) and config.aws_profile.nil?
+    end
+
     def validate
       return missing_bucket_name unless has_bucket_name?
       return missing_aws_region unless has_aws_region?
 
-      return ValidationResult.valid if has_aws_profile?
-      
-      return missing_aws_access_key_id unless has_aws_access_key_id?
-      return missing_aws_secret_access_key unless has_aws_secret_access_key?
+      return missing_aws_access_key_id if not has_aws_access_key_id? and has_aws_secret_access_key?
+      return missing_aws_secret_access_key if not has_aws_secret_access_key? and has_aws_access_key_id?
+
       ValidationResult.valid
     end
 
