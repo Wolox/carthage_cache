@@ -46,7 +46,7 @@ module CarthageCache
     end
 
     def download(archive_filename, destination_path)
-      system "wget", "--output-document=#{destination_path}/#{archive_filename}", "#{base_url}/#{archive_filename}", "-q"
+      system "wget", "--output-document=#{destination_path}", "#{base_url}/#{archive_filename}", "-q"
     end
 
     def upload(archive_filename, archive_path)

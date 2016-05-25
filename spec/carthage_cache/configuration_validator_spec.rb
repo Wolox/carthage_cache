@@ -28,7 +28,7 @@ describe CarthageCache::ConfigurationValidator do
 
         end
 
-        context "when the AWS region is missing" do
+        context "when there are no credentials" do
 
           before(:each) { config.aws_region = nil }
 
@@ -150,10 +150,10 @@ describe CarthageCache::ConfigurationValidator do
 
       context "when the AWS key and secret are found" do
 
-        before(:each) { 
+        before(:each) do 
           config.aws_access_key_id = "ID"
           config.aws_secret_access_key = "SECRET"
-        }
+        end
 
         it "returns false" do
           expect(validator.read_only?).to be_falsy
@@ -163,9 +163,7 @@ describe CarthageCache::ConfigurationValidator do
 
       context "when the AWS key only is found" do
 
-        before(:each) { 
-          config.aws_access_key_id = "ID"
-        }
+        before(:each) { config.aws_access_key_id = "ID" }
 
         it "returns true" do
           expect(validator.read_only?).to be_truthy
@@ -175,9 +173,7 @@ describe CarthageCache::ConfigurationValidator do
 
       context "when the AWS only secret is found" do
 
-        before(:each) { 
-          config.aws_secret_access_key = "SECRET"
-        }
+        before(:each) {  config.aws_secret_access_key = "SECRET" }
 
         it "returns true" do
           expect(validator.read_only?).to be_truthy
