@@ -130,7 +130,7 @@ describe CarthageCache::ConfigurationValidator do
     end
     subject(:validator) { CarthageCache::ConfigurationValidator.new(config) }
 
-    context "whithout credentials" do
+    context "when there are no credentials" do
       it "returns true" do
         expect(validator.read_only?).to be_truthy
       end

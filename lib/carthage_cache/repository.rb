@@ -50,6 +50,7 @@ module CarthageCache
     end
 
     def upload(archive_filename, archive_path)
+      raise "carthage_cache is working in read-only mode. Please configure AWS credentials first"
     end
 
   end
