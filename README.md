@@ -48,6 +48,11 @@ You can also set your credentials using the following environmental variables
  * `AWS_ACCESS_KEY_ID`
  * `AWS_SECRET_ACCESS_KEY`
 
+Or if you prefer using [AWS Named Profiles](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-multiple-profiles), you can use the following environmental variables instead
+
+ * `AWS_REGION`
+ * `AWS_PROFILE`
+
 ### AWS S3 bucket
 
 CarthageCache will assume there is a bucket named `carthage-cache`. You can change the bucket to be used by using the option `-b` or `--bucket-name`.
@@ -144,6 +149,37 @@ For more information run the help command
 ```
 carthage_cache help
 ```
+
+### OSS project
+
+In an OSS project you wouldn't store AWS credentials anywhere since anyone can have access, even if you have a build like travis that supports for encrypted variables but these are not available in your contributors pull requests build. 
+
+In order allow your build to run in these circumstances, you can avoid defining these variables
+
+ * `AWS_ACCESS_KEY_ID`
+ * `AWS_SECRET_ACCESS_KEY`
+ * `AWS_PROFILE`
+
+And **carthage_cache** will work in read-only mode, you wont be able to publish new items but your build will still be able to fetch the cached dependencies.
+
+The only requirement is to make the action `s3:GetObject` avaible for any anonymous user in your S3 Bucket
+
+```
+{
+  "Version":"2012-10-17",
+  "Statement":[
+    {
+      "Sid":"AddPerm",
+      "Effect":"Allow",
+      "Principal": "*",
+      "Action":["s3:GetObject"],
+      "Resource":["arn:aws:s3:::examplebucket/*"]
+    }
+  ]
+}
+```
+
+> Please know that this will make all your dependencies **PUBLIC** and accessible for anyone, so if you have sensitive information or propietary code there you should avoid this configuration.
 
 ### Project's root directory
 

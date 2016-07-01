@@ -16,6 +16,10 @@ module CarthageCache
       ConfigurationValidator.new(config).valid?
     end
 
+    def self.read_only?(config)
+      ConfigurationValidator.new(config).read_only?
+    end
+
     def self.parse(str)
       new(YAML.load(str))
     end
@@ -25,7 +29,8 @@ module CarthageCache
         aws_s3_client_options: {
           region: ENV['AWS_REGION'],
           access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-          secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+          secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+          profile: ENV['AWS_PROFILE']
         },
         tmpdir: Dir.tmpdir
       })
@@ -35,6 +40,7 @@ module CarthageCache
     config_key :aws_region
     config_key :aws_access_key_id
     config_key :aws_secret_access_key
+    config_key :aws_profile
     config_key :tmpdir
 
     attr_reader :hash_object
@@ -49,6 +55,10 @@ module CarthageCache
 
     def valid?
       self.class.valid?(self)
+    end
+
+    def read_only?
+      self.class.read_only?(self)
     end
 
     def merge(c)
