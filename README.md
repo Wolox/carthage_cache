@@ -42,6 +42,8 @@ To generate a `.carthage_cache.yml` you just need to run
 carthage_cache config
 ```
 
+You can use local mode only which stores the files in a Carthage/Cache
+
 You can also set your credentials using the following environmental variables
 
  * `AWS_REGION`

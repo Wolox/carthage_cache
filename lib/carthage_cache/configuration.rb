@@ -19,7 +19,11 @@ module CarthageCache
     def self.read_only?(config)
       ConfigurationValidator.new(config).read_only?
     end
-
+      
+    def self.local_only?(config)
+      ConfigurationValidator.new(config).local_only?
+    end
+      
     def self.parse(str)
       new(YAML.load(str))
     end
@@ -42,6 +46,7 @@ module CarthageCache
     config_key :aws_secret_access_key
     config_key :aws_profile
     config_key :tmpdir
+    config_key :local_mode
 
     attr_reader :hash_object
 
@@ -60,7 +65,11 @@ module CarthageCache
     def read_only?
       self.class.read_only?(self)
     end
-
+      
+    def local_only?
+      self.class.local_only?(self)
+    end
+      
     def merge(c)
       if c.is_a?(Hash)
         @hash_object = hash_object.merge(c)

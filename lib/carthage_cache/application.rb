@@ -16,8 +16,13 @@ module CarthageCache
       @terminal = terminal.new(verbose)
       @archiver = Archiver.new
       @config = Configurator.new(@terminal, project_path, config).config
-      clazz = @config.read_only? ? HTTPRepository : repository
-      @repository = clazz.new(@config.bucket_name, @config.hash_object[:aws_s3_client_options])
+      if @config.local_only?
+          cacheDirectory = File.join(project_path, "Carthage", @config.local_mode)
+          @repository = LocalRepository.new(cacheDirectory)
+      else
+        clazz = @config.read_only? ? HTTPRepository : repository
+        @repository = clazz.new(@config.bucket_name, @config.hash_object[:aws_s3_client_options])
+      end  
       @project = Project.new(project_path, CACHE_DIR_NAME, @terminal, @config.tmpdir, swift_version_resolver.new)
     end
 
