@@ -10,13 +10,13 @@ module CarthageCache
     def start
         confirm = @ask_proc.call("Would you like to use AWS [Y/N]") { |yn| yn.limit = 1, yn.validate = /[yn]/i }
         unless confirm.downcase == 'y'
-            startLocalMode
+            start_local_mode
         else
-            startAWS
+            start_aws
         end
     end
     
-    def startAWS
+    def start_aws
       config = Configuration.new
       config.bucket_name = ask("What is the Amazon S3 bucket name?", ENV["CARTHAGE_CACHE_DEFAULT_BUCKET_NAME"])
       config.aws_region = ask("What is the Amazon S3 region?")
@@ -25,7 +25,7 @@ module CarthageCache
       config
     end
       
-    def startLocalMode
+    def start_local_mode
       config = Configuration.new
       config.local_mode = "Cache"
       config
