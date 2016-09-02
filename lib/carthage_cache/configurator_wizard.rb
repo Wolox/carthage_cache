@@ -2,9 +2,10 @@ module CarthageCache
 
   class ConfiguratorWizard
 
-    def initialize(ask_proc, password_proc)
+    def initialize(ask_proc, password_proc, project_path)
       @ask_proc = ask_proc
       @password_proc = password_proc
+      @project_path = project_path
     end
 
     def start
@@ -27,7 +28,7 @@ module CarthageCache
       
     def start_local_mode
       config = Configuration.new
-      config.local_mode = "Cache"
+      config.local_mode = File.join(@project_path, "Carthage", "Cache")
       config
     end
     

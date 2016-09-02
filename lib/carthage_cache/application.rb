@@ -17,7 +17,7 @@ module CarthageCache
       @archiver = Archiver.new
       @config = Configurator.new(@terminal, project_path, config).config
       if @config.local_only?
-          cacheDirectory = File.join(project_path, "Carthage", @config.local_mode)
+          cacheDirectory = File.new(@config.local_mode)
           @repository = LocalRepository.new(cacheDirectory)
       else
         clazz = @config.read_only? ? HTTPRepository : repository

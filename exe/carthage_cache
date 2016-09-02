@@ -68,7 +68,7 @@ command :config do |c|
   c.action do |args, options|
     terminal = CarthageCache::Terminal.new(verbose)
     configurator = CarthageCache::Configurator.new(terminal, args.first || ".")
-    wizard = CarthageCache::ConfiguratorWizard.new(method(:ask), method(:password))
+    wizard = CarthageCache::ConfiguratorWizard.new(method(:ask), method(:password), args.first || ".")
     config = wizard.start
     configurator.save_config(config)
   end
