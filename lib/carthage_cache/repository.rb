@@ -74,7 +74,7 @@ module CarthageCache
     end
 
     def download(archive_filename, destination_path)
-      local_dir = File.join(destination_path, archive_filename)
+      local_dir = File.join(destination_path)
       destination_dir = File.join(@project_directory, archive_filename)
       FileUtils.cp(local_dir, destination_dir)
     end
