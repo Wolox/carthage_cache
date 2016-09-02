@@ -17,8 +17,7 @@ module CarthageCache
       @archiver = Archiver.new
       @config = Configurator.new(@terminal, project_path, config).config
       if @config.local_only?
-          cacheDirectory = File.new(@config.local_mode)
-          @repository = LocalRepository.new(cacheDirectory)
+          @repository = LocalRepository.new(@config.local_mode)
       else
         clazz = @config.read_only? ? HTTPRepository : repository
         @repository = clazz.new(@config.bucket_name, @config.hash_object[:aws_s3_client_options])
