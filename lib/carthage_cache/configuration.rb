@@ -32,7 +32,7 @@ module CarthageCache
           secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
           profile: ENV['AWS_PROFILE']
         },
-        tmpdir: File.join(Dir.home, 'Library', 'Caches', 'carthage_cache')
+        tmpdir: File.join(Dir.home, 'Library', 'Caches')
       })
     end
 
