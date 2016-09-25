@@ -1,0 +1,6 @@
+---
+:bucket_name: carthage-cache
+:aws_s3_client_options:
+  :region: us-west-2
+  :access_key_id: AAAAAAAAAAAAAAA
+  :secret_access_key: 222222222222222222222222222

@@ -34,15 +34,7 @@ describe CarthageCache::Application do
 
   describe "#install_archive" do
 
-    before(:each) do
-      FileUtils.cp(File.join(TMP_PATH, "archive.zip"), archive_path)
-    end
-
-    after(:each) do
-      FileUtils.rm(archive_path)
-    end
-
-    context "when there is no archive for the given Cartfile.resolved file" do
+    context "when there is no archive for the given Cartfile.resolved file in the repository" do
 
       before(:each) do
         expect(repository).to receive("archive_exist?").with(archive_filename).and_return(false)
@@ -54,23 +46,59 @@ describe CarthageCache::Application do
 
     end
 
-    context "when there is an archive for the given Cartfile.resolved file" do
+    context "when there is an archive for the given Cartfile.resolved file in the repository" do
 
       let(:carthage_build_directory) { File.join(FIXTURE_PATH, "Carthage/Build") }
 
       before(:each) do
-        expect(repository).to receive(:download).with(archive_filename, archive_path)
         expect(repository).to receive("archive_exist?").with(archive_filename).and_return(true)
         FileUtils.rm_r(carthage_build_directory) if File.exist?(carthage_build_directory)
       end
 
-      it "returns true" do
-        expect(application.install_archive).to be_truthy
+      context "and no archive in the local cache" do
+
+        before(:each) do
+          allow(repository).to receive(:download).with(archive_filename, archive_path) do
+            # fake the actual download in the local cache by copying the file
+            # there
+            FileUtils.cp(File.join(TMP_PATH, "archive.zip"), archive_path)
+          end
+        end
+
+        after(:each) do
+          FileUtils.rm(archive_path) if File.exist?(archive_path)
+        end
+
+        it "returns true" do
+          expect(application.install_archive).to be_truthy
+        end
+
+        it "downloads and installs the archive" do
+          application.install_archive
+          expect(File.exist?(carthage_build_directory)).to be_truthy
+        end
+
       end
 
-      it "downloads and install the archive" do
-        application.install_archive
-        expect(File.exist?(carthage_build_directory)).to be_truthy
+      context "an the archive has already been downloaded in the local cache" do
+
+        before(:each) do
+          FileUtils.cp(File.join(TMP_PATH, "archive.zip"), archive_path)
+        end
+
+        after(:each) do
+          FileUtils.rm(archive_path)
+        end
+
+        it "returns true" do
+          expect(application.install_archive).to be_truthy
+        end
+
+        it "installs the archive" do
+          expect(repository).to_not receive(:download)
+          application.install_archive
+          expect(File.exist?(carthage_build_directory)).to be_truthy
+        end
       end
 
     end
