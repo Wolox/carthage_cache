@@ -55,11 +55,15 @@ command :publish do |c|
   c.option '-f', '--force', 'Forces to create a new archive even if an archive already exist.'
   c.option '-p', '--prune-build-directory', 'Removes unused frameworks from build directory.'
   c.option '-w', '--prune-white-list PRUNE_WHITE_LIST', String, 'Path to a YAML file containing the prune white list.'
-  c.option '-x', '--platforms PLATFORMS', String, 'A comma separated list of platforms that should be archived. Platforms not present in this list won\'t be archived'.
+  c.option '-x', '--platforms PLATFORMS', String, 'A comma separated list of platforms that should be archived. Platforms not present in this list won\'t be archived'
   c.action do |args, options|
     options.default force: false, prune: false
     app = CarthageCache::Application.new(args.first || ".", verbose, config)
     platforms = options.platforms.split(",") if options.platforms
+    if platforms.empty?
+      puts "If you pass -x or --platforms option the you must specify at least one platform."
+      exit 1
+    end
     app.create_archive(options.force, options.prune, options.prune_white_list, platforms)
   end
 end
