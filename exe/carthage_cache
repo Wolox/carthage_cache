@@ -64,7 +64,7 @@ command :publish do |c|
       puts "If you pass -x or --platforms option the you must specify at least one platform."
       exit 1
     end
-    app.create_archive(options.force, options.prune, options.prune_white_list, platforms)
+    app.create_archive(options.force, options.prune_build_directory, options.prune_white_list, platforms)
   end
 end
 

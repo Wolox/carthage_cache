@@ -20,10 +20,11 @@ module CarthageCache
         if delete_framework?(framework_path, white_list)
           terminal.vputs "Deleting '#{framework_path}' because is not longer needed."
           FileUtils.rm_r(framework_path)
-          FileUtils.rm_r("#{framework_path}.dSYM")
-          # TODO delete corresponding .bcsymbolmap file
         end
       end
+
+      symbol_table_files.each { |x| FileUtils.rm_r(x) }
+      dsym_files.each { |x| FileUtils.rm_r(x) }
     end
 
     private
@@ -39,6 +40,14 @@ module CarthageCache
 
       def list_built_frameworks
         Dir[File.join(build_directory, "/**/*.framework")]
+      end
+
+      def symbol_table_files
+        Dir[File.join(build_directory, "/**/*.bcsymbolmap")]
+      end
+
+      def dsym_files
+        Dir[File.join(build_directory, "/**/*.dSYM")]
       end
 
       def framework_name(framework_path)

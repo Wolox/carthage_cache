@@ -13,8 +13,7 @@ describe CarthageCache::BuildCollector do
   def framework_exist?(framework_name)
     %w(Mac  iOS  tvOS	watchOS).all? do |platform|
       framework = File.join(build_directory, platform, "#{framework_name}.framework")
-      dSYM = File.join(build_directory, platform, "#{framework_name}.framework.dSYM")
-      File.exist?(framework) && File.exist?(dSYM)
+      File.exist?(framework)
     end
   end
 
