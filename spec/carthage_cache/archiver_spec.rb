@@ -24,6 +24,16 @@ describe CarthageCache::Archiver do
       archiver.archive(build_directory, archive_path)
     end
 
+    context "when a filter block is passed" do
+
+      it "filters platforms that don't match the filter" do
+        expected_command = "cd #{build_directory} && zip -r -X #{archive_path} iOS > /dev/null"
+        expect(executor).to receive(:execute).with(expected_command)
+        archiver.archive(build_directory, archive_path) { |x| x == "iOS" }
+      end
+
+    end
+
   end
 
   describe "#unarchive" do

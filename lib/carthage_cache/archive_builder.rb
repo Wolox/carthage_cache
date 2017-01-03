@@ -14,8 +14,8 @@ module CarthageCache
       @project = project
     end
 
-    def build
-      archive_path = archive
+    def build(platforms = nil)
+      archive_path = archive(platforms)
       upload_archive(archive_path)
       # TODO check if some old archives can be deleted
       # I would store the last N archives and then delete
@@ -24,14 +24,11 @@ module CarthageCache
 
     private
 
-      def archive
-        # TODO Check() that only dependencies that appear
-        # in Cartfile.resolved file are going to be archived.
-        # This will avoid saving unused dependencies into
-        # the archive.
+      def archive(platforms = nil)
         archive_path = File.join(project.tmpdir, project.archive_filename)
         terminal.puts "Archiving Carthage build directory."
-        archiver.archive(project.carthage_build_directory, archive_path)
+        filter_block = ->(platform) { platforms.map(&:downcase).include?(platform) } if platforms
+        archiver.archive(project.carthage_build_directory, archive_path, &filter_block)
         archive_path
       end
 
