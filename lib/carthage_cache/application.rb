@@ -38,6 +38,8 @@ module CarthageCache
     def create_archive(force = false, prune = nil, prune_white_list = nil, platforms = nil)
       prune ||= config.prune_on_publish
       platforms ||= config.platforms
+      prune_white_list ||= config.prune_white_list
+
       if force || !archive_exist?
         prune_build_directory(prune_white_list) if prune
         archive_builder.build(platforms)
@@ -45,6 +47,8 @@ module CarthageCache
     end
 
     def prune_build_directory(white_list)
+      white_list ||= config.prune_white_list
+      
       if white_list && File.exist?(white_list)
         terminal.vputs "Prunning build directory with white list '#{white_list}' ..."
         white_list = YAML.load(File.read(white_list))
