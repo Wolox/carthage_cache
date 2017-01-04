@@ -12,7 +12,7 @@ module CarthageCache
     end
 
     def lock_digest
-      File.read(lock_file_path) if File.exist?(lock_file_path)
+      File.read(lock_file_path).strip if File.exist?(lock_file_path)
     end
 
     def write_lock_digest(digest)
