@@ -41,6 +41,7 @@ module CarthageCache
       prune_white_list ||= config.prune_white_list
 
       if force || !archive_exist?
+        carthage_cache_lock.write_lock_digest(project.archive_key)
         prune_build_directory(prune_white_list) if prune
         archive_builder.build(platforms)
       end
@@ -48,7 +49,7 @@ module CarthageCache
 
     def prune_build_directory(white_list)
       white_list ||= config.prune_white_list
-      
+
       if white_list && File.exist?(white_list)
         terminal.vputs "Prunning build directory with white list '#{white_list}' ..."
         white_list = YAML.load(File.read(white_list))
@@ -57,6 +58,16 @@ module CarthageCache
         terminal.vputs "Prunning build directory ..."
       end
       build_collector.delete_unused_frameworks(white_list)
+    end
+
+    def validate_installation
+      if carthage_cache_lock.valid_digest?(project.archive_key)
+        terminal.puts "You installation is valid."
+        true
+      else
+        terminal.puts "Your current Carthage digest '#{project.archive_key}' does not match digest '#{carthage_cache_lock.lock_digest}' in '#{carthage_cache_lock.lock_file_path}'"
+        false
+      end
     end
 
     private
@@ -71,6 +82,10 @@ module CarthageCache
 
       def build_collector
         @build_collector ||= BuildCollector.new(terminal, project.carthage_build_directory, project.all_frameworks)
+      end
+
+      def carthage_cache_lock
+        @carthage_cache_lock ||= CarthageCacheLock.new(project.carthage_build_directory)
       end
 
   end

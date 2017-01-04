@@ -11,10 +11,11 @@ require "carthage_cache/configuration_validator"
 require "carthage_cache/configuration"
 require "carthage_cache/configurator"
 require "carthage_cache/configurator_wizard"
-require "carthage_cache/shell_command_executor.rb"
-require "carthage_cache/application.rb"
-require "carthage_cache/swift_version_resolver.rb"
-require "carthage_cache/build_collector.rb"
+require "carthage_cache/shell_command_executor"
+require "carthage_cache/application"
+require "carthage_cache/swift_version_resolver"
+require "carthage_cache/build_collector"
+require "carthage_cache/carthage_cache_lock"
 
 module CarthageCache
 

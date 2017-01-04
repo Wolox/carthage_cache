@@ -31,7 +31,14 @@ module CarthageCache
         else
           terminal.puts "Archiving Carthage build directory for all platforms."
         end
-        filter_block = ->(platform) { platforms.map(&:downcase).include?(platform.downcase) } if platforms
+
+        filter_block = nil
+        if platforms
+          filter_block = ->(file) do
+            lock_file?(file) || platforms.map(&:downcase).include?(file.downcase)
+          end
+        end
+
         archiver.archive(project.carthage_build_directory, archive_path, &filter_block)
         archive_path
       end
@@ -39,6 +46,10 @@ module CarthageCache
       def upload_archive(archive_path)
         terminal.puts "Uploading archive with key '#{project.archive_key}'."
         repository.upload(project.archive_filename, archive_path)
+      end
+
+      def lock_file?(file)
+        file == CarthageCacheLock::LOCK_FILE_NAME
       end
 
   end

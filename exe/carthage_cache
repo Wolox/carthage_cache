@@ -1,6 +1,12 @@
 #!/usr/bin/env ruby
 
-#require "bundler/setup"
+if Gem::Specification::find_all_by_name('bundler').any?
+  require 'bundler/setup'
+else
+  require 'rubygems'
+  gem 'carthage_cache'
+end
+
 require "commander/import"
 require "carthage_cache"
 
@@ -88,5 +94,14 @@ command :prune do |c|
     options.default force: false, prune: false
     app = CarthageCache::Application.new(args.first || ".", verbose, config)
     app.prune_build_directory(options.prune_white_list)
+  end
+end
+
+command :validate do |c|
+  c.syntax = "#{PROGRAM_NAME} validate [PROJECT_PATH]"
+  c.description = 'Validates the cache archive for the current Cartfile.resolved.'
+  c.action do |args, options|
+    app = CarthageCache::Application.new(args.first || ".", verbose, config)
+    exit 1 unless app.validate_installation
   end
 end
