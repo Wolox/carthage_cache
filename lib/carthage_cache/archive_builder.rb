@@ -26,7 +26,11 @@ module CarthageCache
 
       def archive(platforms = nil)
         archive_path = File.join(project.tmpdir, project.archive_filename)
-        terminal.puts "Archiving Carthage build directory."
+        if platforms
+          terminal.puts "Archiving Carthage build directory for #{platforms.join(',')} platforms."
+        else
+          terminal.puts "Archiving Carthage build directory for all platforms."
+        end
         filter_block = ->(platform) { platforms.map(&:downcase).include?(platform.downcase) } if platforms
         archiver.archive(project.carthage_build_directory, archive_path, &filter_block)
         archive_path

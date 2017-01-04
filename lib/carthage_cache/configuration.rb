@@ -26,6 +26,8 @@ module CarthageCache
 
     def self.default
       @default ||= Configuration.new({
+        prune_on_publish: false,
+        platforms: nil,
         aws_s3_client_options: {
           region: ENV['AWS_REGION'],
           access_key_id: ENV['AWS_ACCESS_KEY_ID'],
@@ -37,6 +39,8 @@ module CarthageCache
     end
 
     config_key :bucket_name
+    config_key :prune_on_publish
+    config_key :platforms
     config_key :aws_region
     config_key :aws_access_key_id
     config_key :aws_secret_access_key

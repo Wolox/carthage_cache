@@ -35,7 +35,9 @@ module CarthageCache
       end
     end
 
-    def create_archive(force = false, prune = false, prune_white_list = nil, platforms = nil)
+    def create_archive(force = false, prune = nil, prune_white_list = nil, platforms = nil)
+      prune ||= config.prune_on_publish
+      platforms ||= config.platforms
       if force || !archive_exist?
         prune_build_directory(prune_white_list) if prune
         archive_builder.build(platforms)

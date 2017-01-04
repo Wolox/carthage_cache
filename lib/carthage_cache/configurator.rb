@@ -40,7 +40,7 @@ module CarthageCache
       def load_config
         if config_file_exist?
           config = Configuration.parse(File.read(config_file_path))
-          config = config.merge(base_config)
+          config = base_config.merge(config)
         else
           base_config
         end
