@@ -110,8 +110,6 @@ describe CarthageCache::BuildCollector do
 
       collector.delete_unused_frameworks
 
-      puts ""
-      puts "AFTER DELETE"
       expect(["FakeLibrary"]).not_to exist_for_all_platforms
       expect(required_frameworks).to exist_for_all_platforms
     end
