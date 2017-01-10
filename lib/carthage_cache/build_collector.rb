@@ -47,14 +47,24 @@ module CarthageCache
       def delete_framework_files(framework_path)
         framework_dsym_path = "#{framework_path}.dSYM"
         terminal.vputs "Deleting #{framework_name(framework_path)} files because they are no longer needed ..."
-        terminal.vputs "Deleting '#{framework_dsym_path}' ..."
-        FileUtils.rm_r(framework_dsym_path)
+
+        # Deletes .framework file
         terminal.vputs "Deleting '#{framework_path}' ..."
         FileUtils.rm_r(framework_path)
+
+        # Deletes .bcsymbolmap files
         symbol_map_files(framework_dsym_path).each do |symbol_table_file|
           terminal.vputs "Deleting '#{symbol_table_file}' ..."
           FileUtils.rm(symbol_table_file)
         end
+
+        # Deletes .dSYM files
+        # .dSYM file MUST be deleted after .bcsymbolmap files because
+        # in order to match .bcsymbolmap files with framework file
+        # we need to use .dSYM file with dwarfdump command.
+        terminal.vputs "Deleting '#{framework_dsym_path}' ..."
+        FileUtils.rm_r(framework_dsym_path)
+
         terminal.vputs ""
       end
 
