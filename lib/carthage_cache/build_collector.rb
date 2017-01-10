@@ -50,12 +50,14 @@ module CarthageCache
 
         # Deletes .framework file
         terminal.vputs "Deleting '#{framework_path}' ..."
-        FileUtils.rm_r(framework_path)
+        FileUtils.rm_r(framework_path) if File.exist?(framework_path)
 
-        # Deletes .bcsymbolmap files
-        symbol_map_files(framework_dsym_path).each do |symbol_table_file|
-          terminal.vputs "Deleting '#{symbol_table_file}' ..."
-          FileUtils.rm(symbol_table_file)
+        # Deletes .bcsymbolmap files (needs .dSYM file)
+        if File.exist?(framework_dsym_path)
+          symbol_map_files(framework_dsym_path).each do |symbol_table_file|
+            terminal.vputs "Deleting '#{symbol_table_file}' ..."
+            FileUtils.rm(symbol_table_file)  if File.exist?(symbol_table_file)
+          end
         end
 
         # Deletes .dSYM files
@@ -63,7 +65,7 @@ module CarthageCache
         # in order to match .bcsymbolmap files with framework file
         # we need to use .dSYM file with dwarfdump command.
         terminal.vputs "Deleting '#{framework_dsym_path}' ..."
-        FileUtils.rm_r(framework_dsym_path)
+        FileUtils.rm_r(framework_dsym_path) if File.exist?(framework_dsym_path)
 
         terminal.vputs ""
       end
