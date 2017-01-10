@@ -14,6 +14,8 @@ When you add slow building environments like Travis CI to the mix, a project boo
 CarthageCache generates a hash key based on the content of your `Cartfile.resolved` and the current
 installed version of Swift. Then it checks if there is a cache archive (a zip file of your `Carthage/Build` directory) associated to that hash. If there is one it will download it and install it in your project avoiding the need to run `carthage bootstrap`.
 
+**Do you want to improve carthage_cache?** [Check all the issues tagged with `help-wanted`!](https://github.com/guidomb/carthage_cache/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22). I'll be more than happy to review your pull request.
+
 ## Installation
 
 Add this line to your application's Gemfile:
