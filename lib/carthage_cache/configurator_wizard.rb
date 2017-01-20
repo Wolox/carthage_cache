@@ -30,7 +30,7 @@ module CarthageCache
       end
 
       def confirm(message)
-        ask("#{message} [N/y]").downcase == 'y'
+        ask("#{message} [N/y]", 'N').downcase == 'y'
       end
 
       def password(message)
