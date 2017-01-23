@@ -1,4 +1,5 @@
 require "aws-sdk"
+require 'fileutils'
 
 module CarthageCache
 
@@ -54,5 +55,36 @@ module CarthageCache
     end
 
   end
+
+
+  class LocalRepository
+    attr_reader :project_directory
+
+    def initialize(project_directory)
+      @project_directory = project_directory
+        
+      unless File.exist?(@project_directory)
+        FileUtils.mkdir_p(@project_directory)
+      end
+    end
+
+    def archive_exist?(archive_filename)
+      dir = File.join(project_directory, archive_filename)
+      File.exist?(dir)
+    end
+
+    def download(archive_filename, destination_path)
+      local_dir = File.join(destination_path)
+      destination_dir = File.join(@project_directory, archive_filename)
+      FileUtils.cp(local_dir, destination_dir)
+    end
+
+    def upload(archive_filename, archive_path)
+      local_dir = File.join(@project_directory, archive_filename)
+      destination_dir = archive_path
+      FileUtils.cp(destination_dir, local_dir)
+    end
+  end
+    
 
 end

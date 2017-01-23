@@ -43,6 +43,12 @@ To generate a `.carthage_cache.yml` you just need to run
 ```
 carthage_cache config
 ```
+You'll be asked if you want to run local mode this will create a config with the default cache directory /Carthage/Cache
+```
+---
+:local_mode: Cache
+
+```
 
 You can also set your credentials using the following environmental variables
 

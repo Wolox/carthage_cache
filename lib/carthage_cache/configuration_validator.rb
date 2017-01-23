@@ -72,8 +72,13 @@ module CarthageCache
     def read_only?
       (config.aws_access_key_id.nil? || config.aws_secret_access_key.nil?) && config.aws_profile.nil?
     end
-
+      
+    def local_only?
+      has_local_mode?
+    end
+    
     def validate
+      return ValidationResult.valid if has_local_mode?    
       return missing_bucket_name unless has_bucket_name?
       return missing_aws_region unless has_aws_region?
 
@@ -93,6 +98,10 @@ module CarthageCache
         !has_aws_profile? && has_aws_access_key_id? && !has_aws_secret_access_key?
       end
 
+      def has_local_mode?
+         config.local_mode
+      end
+      
       def has_bucket_name?
         config.bucket_name
       end
