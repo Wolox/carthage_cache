@@ -49,7 +49,7 @@ You can also set your credentials using the following environmental variables
  * `AWS_REGION`
  * `AWS_ACCESS_KEY_ID`
  * `AWS_SECRET_ACCESS_KEY`
- * `AWS_SESSION_TOKEN`
+ * `AWS_SESSION_TOKEN` # optional, for [temporary security credentials](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html)
 
 Or if you prefer using [AWS Named Profiles](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-multiple-profiles), you can use the following environmental variables instead
 
@@ -155,7 +155,7 @@ carthage_cache help
 
 ### OSS project
 
-In an OSS project you wouldn't store AWS credentials anywhere since anyone can have access, even if you have a build like travis that supports for encrypted variables but these are not available in your contributors pull requests build. 
+In an OSS project you wouldn't store AWS credentials anywhere since anyone can have access, even if you have a build like travis that supports for encrypted variables but these are not available in your contributors pull requests build.
 
 In order allow your build to run in these circumstances, you can avoid defining these variables
 
