@@ -49,6 +49,7 @@ You can also set your credentials using the following environmental variables
  * `AWS_REGION`
  * `AWS_ACCESS_KEY_ID`
  * `AWS_SECRET_ACCESS_KEY`
+ * `AWS_SESSION_TOKEN`
 
 Or if you prefer using [AWS Named Profiles](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-multiple-profiles), you can use the following environmental variables instead
 
