@@ -9,6 +9,7 @@ describe CarthageCache::ConfigurationValidator do
       config.aws_region = "us-west-2"
       config.aws_access_key_id = "AAAAAAAAAAAAAAAAA"
       config.aws_secret_access_key = "BBBBBBBBBBBBBBBBBBBBBBBBBB"
+      config.aws_session_token = "CCCCCCCCCCCCCCCCCCCCCCCC"
       config
     end
     subject(:validator) { CarthageCache::ConfigurationValidator.new(config) }
@@ -56,6 +57,16 @@ describe CarthageCache::ConfigurationValidator do
             expect(validator.valid?).to be_falsy
           end
 
+        end
+        
+        context "when the AWS session token is missing and the access key and secret are not" do
+          
+          before(:each) { config.aws_session_token = nil }
+          
+          it "returns true" do
+            expect(validator.valid?).to be_truthy
+          end
+          
         end
 
       end

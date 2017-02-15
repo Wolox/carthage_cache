@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
   spec.add_development_dependency "simplecov"
   spec.add_development_dependency "codeclimate-test-reporter", "~> 1.0.0"
+  spec.add_development_dependency "rspec_junit_formatter", "~> 0.2.3"
 
   spec.add_dependency "aws-sdk", "~> 2.0"
   spec.add_dependency "commander", "~> 4.3"
