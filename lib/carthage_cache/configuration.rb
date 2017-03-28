@@ -33,7 +33,9 @@ module CarthageCache
           region: ENV['AWS_REGION'],
           access_key_id: ENV['AWS_ACCESS_KEY_ID'],
           secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-          profile: ENV['AWS_PROFILE']
+          profile: ENV['AWS_PROFILE'],
+          session_token: ENV['AWS_SESSION_TOKEN']
+          
         },
         tmpdir: File.join(Dir.home, 'Library', 'Caches')
       })
@@ -48,6 +50,7 @@ module CarthageCache
     config_key :aws_secret_access_key
     config_key :aws_profile
     config_key :tmpdir
+    config_key :aws_session_token
 
     attr_reader :hash_object
 
