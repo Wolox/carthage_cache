@@ -13,7 +13,7 @@ module CarthageCache
 
     def self.missing_aws_key(keyname, name)
       solution =  "You need to specify the AWS #{name} to be used.\n"     \
-                  "You can either define a enviromental variable "        \
+                  "You can either define a environmental variable "        \
                   "AWS_REGION or add ':#{keyname}: YOUR_KEY_VALUE' "      \
                   "under the :aws_s3_client_options: key in the "         \
                   ".carthage_cache.yml file.\nYou can also run "          \

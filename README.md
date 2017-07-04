@@ -63,7 +63,7 @@ CarthageCache will assume there is a bucket named `carthage-cache`. You can chan
 ### IAM Policy
 
 Once you create the bucket, you will need to create a user. Go to the IAM section and create a new user. Create a new group, and add the new user to that group.
-Create a policy with the following permisions:
+Create a policy with the following permissions:
 ```
 {
     "Version": "2012-10-17",
@@ -182,7 +182,7 @@ The only requirement is to make the action `s3:GetObject` avaible for any anonym
 }
 ```
 
-> Please know that this will make all your dependencies **PUBLIC** and accessible for anyone, so if you have sensitive information or propietary code there you should avoid this configuration.
+> Please know that this will make all your dependencies **PUBLIC** and accessible for anyone, so if you have sensitive information or proprietary code there you should avoid this configuration.
 
 ### Project's root directory
 

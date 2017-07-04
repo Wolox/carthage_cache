@@ -51,18 +51,18 @@ module CarthageCache
       white_list ||= config.prune_white_list
 
       if white_list && File.exist?(white_list)
-        terminal.vputs "Prunning build directory with white list '#{white_list}' ..."
+        terminal.vputs "Pruning build directory with white list '#{white_list}' ..."
         white_list = YAML.load(File.read(white_list))
       else
         white_list = {}
-        terminal.vputs "Prunning build directory ..."
+        terminal.vputs "Pruning build directory ..."
       end
       build_collector.delete_unused_frameworks(white_list)
     end
 
     def validate_installation
       if carthage_cache_lock.valid_digest?(project.archive_key)
-        terminal.puts "You installation is valid."
+        terminal.puts "Your installation is valid."
         true
       else
         terminal.puts "Your current Carthage digest '#{project.archive_key}' does not match digest '#{carthage_cache_lock.lock_digest}' in '#{carthage_cache_lock.lock_file_path}'"
