@@ -10,6 +10,7 @@ module CarthageCache
     def start
       config = Configuration.new
       config.bucket_name = ask("What is the Amazon S3 bucket name?", ENV["CARTHAGE_CACHE_DEFAULT_BUCKET_NAME"])
+      config.path = ask("What folder do you want to use? (optional)?", nil) 
       config.prune_on_publish = confirm("Do you want to prune unused framework when publishing?")
       config.aws_region = ask("What is the Amazon S3 region?")
       config.aws_access_key_id = password("What is the AWS access key?")

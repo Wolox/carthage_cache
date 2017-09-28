@@ -36,7 +36,7 @@ module CarthageCache
           terminal.puts "Archive with key '#{archive_path}' already downloaded in local cache."
         else
           terminal.puts "Downloading archive with key '#{archive_path}'."
-          repository.download(project.archive_filename, archive_path)
+          repository.download(project.archive_path, archive_path)
         end
 
         archive_path

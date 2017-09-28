@@ -18,11 +18,11 @@ module CarthageCache
       @config = Configurator.new(@terminal, project_path, config).config
       clazz = @config.read_only? ? HTTPRepository : repository
       @repository = clazz.new(@config.bucket_name, @config.hash_object[:aws_s3_client_options])
-      @project = Project.new(project_path, CACHE_DIR_NAME, @terminal, @config.tmpdir, swift_version_resolver.new)
+      @project = Project.new(project_path, CACHE_DIR_NAME, @config.path, @terminal, @config.tmpdir, swift_version_resolver.new)
     end
 
     def archive_exist?
-      repository.archive_exist?(project.archive_filename)
+      repository.archive_exist?(project.archive_path)
     end
 
     def install_archive
