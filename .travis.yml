@@ -4,8 +4,13 @@ language: ruby
 cache: bundler
 osx_image: xcode9
 rvm:
-  - ruby-head
   - 2.4.2
+  # macOS 10.12
+  - 2.0.0-p648
+  # macOS 10.11
+  - 2.0.0-p645
+  # macOS 10.10
+  - 2.0.0-p481
 
 branches:
   only:
