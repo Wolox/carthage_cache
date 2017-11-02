@@ -4,7 +4,7 @@ describe CarthageCache::Project do
 
   let(:cache_dir_name) { "carthage_cache" }
   let(:terminal) { MockTerminal.new(false) }
-  subject(:project) { CarthageCache::Project.new(FIXTURE_PATH, cache_dir_name, terminal, TMP_PATH, MockSwiftVersionResolver.new) }
+  subject(:project) { CarthageCache::Project.new(FIXTURE_PATH, cache_dir_name, nil, terminal, TMP_PATH, MockSwiftVersionResolver.new) }
 
   describe "#archive_key" do
 
@@ -18,6 +18,19 @@ describe CarthageCache::Project do
 
     it "returns the name of the archive for the current Cartfile.resolved file" do
       expect(project.archive_filename).to eq("076c322e6651c2c39a01790b4b525a79ec17f49e1b847275418ec512a4cb0396.zip")
+    end
+
+  end
+
+  describe "#archive_path" do
+    
+    it "returns the path of the archive for the current Cartfile.resolved file" do
+      project = CarthageCache::Project.new(FIXTURE_PATH, cache_dir_name, "path", terminal, TMP_PATH, MockSwiftVersionResolver.new)
+      expect(project.archive_path).to eq("path/076c322e6651c2c39a01790b4b525a79ec17f49e1b847275418ec512a4cb0396.zip")
+    end
+
+    it "returns the name of the archive for the current Cartfile.resolved file when path is nil" do
+      expect(project.archive_path).to eq("076c322e6651c2c39a01790b4b525a79ec17f49e1b847275418ec512a4cb0396.zip")
     end
 
   end

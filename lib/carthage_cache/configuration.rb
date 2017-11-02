@@ -37,7 +37,8 @@ module CarthageCache
           session_token: ENV['AWS_SESSION_TOKEN']
           
         },
-        tmpdir: File.join(Dir.home, 'Library', 'Caches')
+        tmpdir: File.join(Dir.home, 'Library', 'Caches'),
+        archive_base_path: nil
       })
     end
 
@@ -51,6 +52,7 @@ module CarthageCache
     config_key :aws_profile
     config_key :tmpdir
     config_key :aws_session_token
+    config_key :archive_base_path
 
     attr_reader :hash_object
 

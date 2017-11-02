@@ -45,7 +45,7 @@ module CarthageCache
 
       def upload_archive(archive_path)
         terminal.puts "Uploading archive with key '#{project.archive_key}'."
-        repository.upload(project.archive_filename, archive_path)
+        repository.upload(project.archive_path, archive_path)
       end
 
       def lock_file?(file)

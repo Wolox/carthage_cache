@@ -4,7 +4,7 @@ describe CarthageCache::ArchiveInstaller do
 
   let(:cache_dir_name) { "carthage_cache" }
   let(:terminal) { MockTerminal.new(false) }
-  let(:project) { CarthageCache::Project.new(FIXTURE_PATH, cache_dir_name, terminal, TMP_PATH) }
+  let(:project) { CarthageCache::Project.new(FIXTURE_PATH, cache_dir_name, nil, terminal, TMP_PATH) }
   let(:archiver) { CarthageCache::Archiver.new(MockCommandExecutor.new) }
   let(:repository) { double("repository") }
   subject(:archive_installer) { CarthageCache::ArchiveInstaller.new(terminal, repository, archiver, project) }
@@ -13,8 +13,8 @@ describe CarthageCache::ArchiveInstaller do
 
     context "when there is no copy of the archive in the local cache" do
 
-      let(:project) { CarthageCache::Project.new(FIXTURE_PATH, cache_dir_name, terminal, TMP_PATH) }
-      let(:archive_path) { File.join(project.tmpdir, project.archive_filename) }
+      let(:project) { CarthageCache::Project.new(FIXTURE_PATH, cache_dir_name, nil, terminal, TMP_PATH) }
+      let(:archive_path) { File.join(project.tmpdir, project.archive_path) }
 
       it "downloads and installs the archive" do
         # download expectation
@@ -29,8 +29,8 @@ describe CarthageCache::ArchiveInstaller do
 
     context "when there is a copy of the archive in the local cache" do
 
-      let(:project) { CarthageCache::Project.new(FIXTURE_WITH_CACHE_PATH, cache_dir_name, terminal, TMP_PATH) }
-      let(:archive_path) { File.join(project.tmpdir, project.archive_filename) }
+      let(:project) { CarthageCache::Project.new(FIXTURE_WITH_CACHE_PATH, cache_dir_name, nil, terminal, TMP_PATH) }
+      let(:archive_path) { File.join(project.tmpdir, project.archive_path) }
 
       before do
         FileUtils.cp(File.join(FIXTURE_ARCHIVE_PATH, "archive.zip"), archive_path)
