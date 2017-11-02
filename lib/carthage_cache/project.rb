@@ -4,15 +4,15 @@ module CarthageCache
 
     attr_reader :cartfile
     attr_reader :project_path
-    attr_reader :archive_dir_name
+    attr_reader :archive_base_path
     attr_reader :cache_dir_name
     attr_reader :terminal
     attr_reader :tmpdir_base_path
 
-    def initialize(project_path, cache_dir_name, archive_dir_name, terminal, tmpdir, swift_version_resolver = SwiftVersionResolver.new)
+    def initialize(project_path, cache_dir_name, archive_base_path, terminal, tmpdir, swift_version_resolver = SwiftVersionResolver.new)
       @project_path = project_path
       @cache_dir_name = cache_dir_name
-      @archive_dir_name = archive_dir_name
+      @archive_base_path = archive_base_path
       @terminal = terminal
       @tmpdir_base_path = tmpdir
       @cartfile = CartfileResolvedFile.new(cartfile_resolved_path, terminal, swift_version_resolver)
@@ -23,10 +23,10 @@ module CarthageCache
     end
 
     def archive_path
-      if @archive_dir_name.nil?
+      if @archive_base_path.nil?
         @archive_path ||= archive_filename
       else 
-        @archive_path ||= File.join(archive_dir_name, archive_filename)
+        @archive_path ||= File.join(archive_base_path, archive_filename)
       end
     end
 
