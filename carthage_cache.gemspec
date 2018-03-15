@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
     if there is a cache archive (a zip file of your Carthage/Build directory) associated to that hash.
     If there is one it will download it and install it in your project avoiding the need to run carthage bootstrap.
   }
-  spec.homepage      = "https://github.com/guidomb/carthage_cache"
+  spec.homepage      = "https://github.com/wolox/carthage_cache"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
