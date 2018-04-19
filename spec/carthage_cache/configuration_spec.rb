@@ -31,5 +31,15 @@ describe CarthageCache::Configuration do
       main_config.merge(other_config)
       expect(main_config.hash_object).to eq(expected_hash)
     end
+
+    it 'merges keys from another configuration object having same key into this one correctly' do
+      expected_hash = { :foo=>"new value" }
+      other_config = CarthageCache::Configuration.new
+      other_config.hash_object[:foo] = "new value"
+      main_config = CarthageCache::Configuration.new
+      main_config.hash_object[:foo] = "old value"
+      main_config.merge(other_config)
+      expect(main_config.hash_object).to eq(expected_hash)
+    end
   end
 end

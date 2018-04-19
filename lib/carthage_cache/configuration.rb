@@ -81,7 +81,7 @@ module CarthageCache
       end
 
       @hash_object = hash_object.merge(other_hash) do |key, oldval, newval|
-        if oldval.is_a?(Hash) then oldval.merge(newval) end
+        oldval.is_a?(Hash) ? oldval.merge(newval) : newval
       end
       self
     end
