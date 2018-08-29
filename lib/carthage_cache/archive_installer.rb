@@ -30,7 +30,7 @@ module CarthageCache
       end
 
       def download_archive
-        archive_path = File.join(project.tmpdir, project.archive_filename)
+        archive_path = project.tmp_archive_path
 
         if File.exist?(archive_path)
           terminal.puts "Archive with key '#{archive_path}' already downloaded in local cache."

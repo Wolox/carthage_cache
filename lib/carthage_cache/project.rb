@@ -30,6 +30,10 @@ module CarthageCache
       end
     end
 
+    def tmp_archive_path
+      @tmp_archive_path = File.join(tmpdir, archive_filename)
+    end
+
     def archive_key
       cartfile.digest
     end

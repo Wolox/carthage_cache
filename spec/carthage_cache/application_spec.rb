@@ -51,13 +51,13 @@ describe CarthageCache::Application do
       let(:carthage_build_directory) { File.join(FIXTURE_PATH, "Carthage/Build") }
 
       before(:each) do
-        expect(repository).to receive("archive_exist?").with(archive_filename).and_return(true)
         FileUtils.rm_r(carthage_build_directory) if File.exist?(carthage_build_directory)
       end
 
       context "and no archive in the local cache" do
 
         before(:each) do
+          expect(repository).to receive("archive_exist?").with(archive_filename).and_return(true)
           allow(repository).to receive(:download).with(archive_filename, archive_path) do
             # fake the actual download in the local cache by copying the file
             # there
@@ -83,6 +83,7 @@ describe CarthageCache::Application do
       context "an the archive has already been downloaded in the local cache" do
 
         before(:each) do
+          expect(repository).to_not receive("archive_exist?")
           FileUtils.cp(File.join(TMP_PATH, "archive.zip"), archive_path)
         end
 

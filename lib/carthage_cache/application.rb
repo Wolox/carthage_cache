@@ -22,7 +22,7 @@ module CarthageCache
     end
 
     def archive_exist?
-      repository.archive_exist?(project.archive_path)
+      File.exist?(project.tmp_archive_path) || repository.archive_exist?(project.archive_path)
     end
 
     def install_archive
