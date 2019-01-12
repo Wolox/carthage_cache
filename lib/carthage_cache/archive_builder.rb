@@ -35,7 +35,10 @@ module CarthageCache
         filter_block = nil
         if platforms
           filter_block = ->(file) do
-            lock_file?(file) || platforms.map(&:downcase).include?(file.downcase)
+            next(true) if lock_file?(file)
+            next(true) if version_file?(file)
+            next(true) if platforms.map(&:downcase).include?(file.downcase)
+            next(false)
           end
         end
 
@@ -50,6 +53,10 @@ module CarthageCache
 
       def lock_file?(file)
         file == CarthageCacheLock::LOCK_FILE_NAME
+      end
+
+      def version_file?(file)
+        File.extname(file) == ".version"
       end
 
   end
