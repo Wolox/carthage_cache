@@ -9,7 +9,11 @@ module CarthageCache
     end
 
     def archive(archive_path, destination_path, &filter_block)
-      files = Dir.entries(archive_path).select { |file| !hidden_file?(file) || version_file?(file) }
+      files = Dir.entries(archive_path).select do |f|
+        next(true) if version_file?(f)
+        next(true) unless hidden_file?(f)
+        next(false)
+      end
       files = files.select(&filter_block) if filter_block
       files = files.sort_by(&:downcase)
       executor.execute("cd #{archive_path} && zip -r -X #{File.expand_path(destination_path)} #{files.join(' ')} > /dev/null")
@@ -26,7 +30,7 @@ module CarthageCache
       end
 
       def version_file?(file)
-        file.end_with?(".version")
+        File.extname(file) == ".version"
       end
 
   end
