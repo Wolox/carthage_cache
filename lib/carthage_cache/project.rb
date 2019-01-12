@@ -49,7 +49,7 @@ module CarthageCache
     private
 
       def cartfile_resolved_path
-        @carfile_resolved_path ||= File.join(project_path, "Cartfile.resolved")
+        @cartfile_resolved_path ||= File.join(project_path, "Cartfile.resolved")
       end
 
       def create_tmpdir
