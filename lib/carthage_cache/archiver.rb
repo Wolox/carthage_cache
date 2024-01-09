@@ -12,7 +12,7 @@ module CarthageCache
       files = Dir.entries(archive_path).select { |x| !x.start_with?(".") }
       files = files.select(&filter_block) if filter_block
       files = files.sort_by(&:downcase)
-      executor.execute("cd #{archive_path} && zip -r -X #{File.expand_path(destination_path)} #{files.join(' ')} > /dev/null")
+      executor.execute("cd #{archive_path} && zip -r -X -y #{File.expand_path(destination_path)} #{files.join(' ')} > /dev/null")
     end
 
     def unarchive(archive_path, destination_path)
